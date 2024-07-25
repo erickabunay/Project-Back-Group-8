@@ -1,0 +1,6 @@
+@API_ElectroUG_HostAddress = http://localhost:5114
+
+GET {{API_ElectroUG_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
