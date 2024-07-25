@@ -56,6 +56,17 @@ namespace API_ElectroUG.Controllers
             return Ok(user);
         }
 
+        [HttpGet("{email}/{password}/email/password")]
+        public async Task<IActionResult> GetByEmailAndPassword(string email, string password)
+        {
+            var user = await _userRepository.GetByEmailAndPassword(email,password);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateUserAsync([FromBody] User user)
         {

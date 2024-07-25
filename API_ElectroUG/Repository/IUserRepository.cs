@@ -14,6 +14,8 @@ namespace API_ElectroUG.Repository
 
         Task<List<User>> GetByLastNameAsync(string lastName);
 
+        Task<User> GetByEmailAndPassword(string email, string password);
+
         Task<User> CreateAsync(User user);
 
         Task<User> UpdateAsync(User user);
@@ -64,6 +66,15 @@ namespace API_ElectroUG.Repository
                                             .Where(x => x.Name == name && x.IsDisable != true)
                                             .ToListAsync();
             return user;
+        }
+
+        public async Task<User> GetByEmailAndPassword(string email, string password)
+        {
+            User user = await _context.User
+                                      .Where(x => x.IsDisable != true)
+                                      .FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
+            return user;
+                                                        
         }
 
         public async Task<User> CreateAsync(User user)
