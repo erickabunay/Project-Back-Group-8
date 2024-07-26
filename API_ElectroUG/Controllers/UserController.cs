@@ -1,6 +1,7 @@
 ﻿using API_ElectroUG.Models;
 using API_ElectroUG.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_ElectroUG.Controllers
@@ -56,10 +57,37 @@ namespace API_ElectroUG.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{email}/{password}/email/password")]
-        public async Task<IActionResult> GetByEmailAndPassword(string email, string password)
+        [HttpGet("/role/manager")]
+        public async Task<IActionResult> GetAllUserByRoleManagerAsync()
         {
-            var user = await _userRepository.GetByEmailAndPassword(email,password);
+            var user = await _userRepository.GetAllUserByRoleManagerAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        [HttpGet("/role/client")]
+        public async Task<IActionResult> GetAllUserByRoleClientAsync()
+        {
+            var user = await _userRepository.GetAllUserByRoleClientAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        [HttpPost("email/password")]
+        public async Task<IActionResult> GetByEmailAndPassword([FromBody] LoginRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Invalid request");
+            }
+
+            var user = await _userRepository.GetByEmailAndPassword(request.Email, request.Password);
             if (user == null)
             {
                 return NotFound();

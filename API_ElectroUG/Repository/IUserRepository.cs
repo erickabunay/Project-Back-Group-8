@@ -16,6 +16,10 @@ namespace API_ElectroUG.Repository
 
         Task<User> GetByEmailAndPassword(string email, string password);
 
+        Task<List<User>> GetAllUserByRoleManagerAsync(); 
+
+        Task<List<User>> GetAllUserByRoleClientAsync(); 
+
         Task<User> CreateAsync(User user);
 
         Task<User> UpdateAsync(User user);
@@ -34,6 +38,8 @@ namespace API_ElectroUG.Repository
         {
             _context = context;
         }
+
+        #region Methods Get
 
         public async Task<List<User>> GetAllAsync()
         {
@@ -68,21 +74,41 @@ namespace API_ElectroUG.Repository
             return user;
         }
 
+        public async Task<List<User>> GetAllUserByRoleManagerAsync()
+        {
+            List<User> user = await _context.User
+                                            .Where(x => x.Role == "Gerente" && x.IsDisable != true)
+                                            .ToListAsync();
+            return user;
+        }
+
+        public async Task<List<User>> GetAllUserByRoleClientAsync()
+        {
+            List<User> user = await _context.User
+                                            .Where(x => x.Role == "Cliente" && x.IsDisable != true)
+                                            .ToListAsync();
+            return user;
+        }
+
         public async Task<User> GetByEmailAndPassword(string email, string password)
         {
             User user = await _context.User
                                       .Where(x => x.IsDisable != true)
                                       .FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
             return user;
-                                                        
-        }
 
+        }
+        #endregion
+
+        #region Method Create
         public async Task<User> CreateAsync(User user)
         {
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
         }
+
+        #endregion
 
         public async Task<User> UpdateAsync(User user)
         {
