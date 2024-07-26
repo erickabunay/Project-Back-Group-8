@@ -30,10 +30,8 @@ namespace API_ElectroUG.Models
         [Required]
         public string Password { get; set; }
 
-        [Required]
-        public string Role { get; set; }
+        public string Role { get; set; } = "Cliente";
 
-        [Required]
         public bool IsDisable { get; set; } = false;
     }
 
