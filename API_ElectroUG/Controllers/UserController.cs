@@ -57,7 +57,7 @@ namespace API_ElectroUG.Controllers
             return Ok(user);
         }
 
-        [HttpGet("/role/manager")]
+        [HttpGet("manager")]
         public async Task<IActionResult> GetAllUserByRoleManagerAsync()
         {
             var user = await _userRepository.GetAllUserByRoleManagerAsync();
@@ -68,7 +68,7 @@ namespace API_ElectroUG.Controllers
             return Ok(user);
         }
 
-        [HttpGet("/role/client")]
+        [HttpGet("client")]
         public async Task<IActionResult> GetAllUserByRoleClientAsync()
         {
             var user = await _userRepository.GetAllUserByRoleClientAsync();
