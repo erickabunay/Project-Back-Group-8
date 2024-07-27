@@ -102,9 +102,27 @@ namespace API_ElectroUG.Controllers
             {
                 return BadRequest("Datos del Usuario Invalidos");
             }
+
+            // Verificar si la contraseña es nula o vacía
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                // Generar una contraseña aleatoria
+                user.Password = GenerateRandomPassword();
+            }
+
+            // Crear el usuario en el repositorio
             await _userRepository.CreateAsync(user);
             return Ok(user);
         }
+
+        private string GenerateRandomPassword(int length = 5)
+        {
+            const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            var random = new Random();
+            return new string(Enumerable.Repeat(validChars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUserAsync(int id, [FromBody] User user)
