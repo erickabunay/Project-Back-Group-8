@@ -8,5 +8,7 @@ namespace API_ElectroUG.Repository
         Task Eliminar(int id);
         Task<IEnumerable<Carrito>> GetEnviadosAsync();
         Task<List<Carrito>> ObtenerTodos();
+        Task ObtenerPorId(int id);
     }
+  
 }

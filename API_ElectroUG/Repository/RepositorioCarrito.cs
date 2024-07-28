@@ -35,6 +35,14 @@ namespace API_ElectroUG.Repository
         {
             return await context.carrito.ToListAsync();
         }
+        public async Task<Carrito?> ObtenerPorId(int id)
+        {
+            //return await context.Autores.FindAsync(id);
+            return context.carrito.Where(x => x.Id == id)
+                .Include(x => x.Id)
+                .ToList()[0];
+
+        }
 
     }
 }
