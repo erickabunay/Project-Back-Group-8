@@ -31,7 +31,7 @@ namespace API_ElectroUG.Models
 
         public string Role { get; set; }
 
-        public bool IsDisabled { get; set; } = false;
+        public bool IsDisable { get; set; } = false;
     }
 
 }
