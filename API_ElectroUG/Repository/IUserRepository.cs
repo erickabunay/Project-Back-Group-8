@@ -44,7 +44,7 @@ namespace API_ElectroUG.Repository
         public async Task<List<User>> GetAllAsync()
         {
             List<User> users = await _context.User
-                                            .Where(x => x.IsDisable != true)
+                                            .Where(x => x.IsDisabled != true)
                                             .ToListAsync();
             return users;
 
@@ -53,7 +53,7 @@ namespace API_ElectroUG.Repository
         public async Task<User> GetByIdAsync(int id)
         {
             User user = await _context.User
-                                      .Where(x => x.IsDisable != true)
+                                      .Where(x => x.IsDisabled != true)
                                       .FirstOrDefaultAsync(x => x.Id == id);
             return user;
         }
@@ -61,7 +61,7 @@ namespace API_ElectroUG.Repository
         public async Task<List<User>> GetByLastNameAsync(string lastName)
         {
             List<User> user = await _context.User
-                                            .Where(x => x.LastName == lastName && x.IsDisable != true)
+                                            .Where(x => x.LastName == lastName && x.IsDisabled != true)
                                             .ToListAsync();
             return user;
         }
@@ -69,7 +69,7 @@ namespace API_ElectroUG.Repository
         public async Task<List<User>> GetByNameAsync(string name)
         {
             List<User> user = await _context.User
-                                            .Where(x => x.Name == name && x.IsDisable != true)
+                                            .Where(x => x.Name == name && x.IsDisabled != true)
                                             .ToListAsync();
             return user;
         }
@@ -77,7 +77,7 @@ namespace API_ElectroUG.Repository
         public async Task<List<User>> GetAllUserByRoleManagerAsync()
         {
             List<User> user = await _context.User
-                                            .Where(x => x.Role == "Gerente" && x.IsDisable != true)
+                                            .Where(x => x.Role == "Gerente" && x.IsDisabled != true)
                                             .ToListAsync();
             return user;
         }
@@ -85,7 +85,7 @@ namespace API_ElectroUG.Repository
         public async Task<List<User>> GetAllUserByRoleClientAsync()
         {
             List<User> user = await _context.User
-                                            .Where(x => x.Role == "Cliente" && x.IsDisable != true)
+                                            .Where(x => x.Role == "Cliente" && x.IsDisabled != true)
                                             .ToListAsync();
             return user;
         }
@@ -93,7 +93,7 @@ namespace API_ElectroUG.Repository
         public async Task<User> GetByEmailAndPassword(string email, string password)
         {
             User user = await _context.User
-                                      .Where(x => x.IsDisable != true)
+                                      .Where(x => x.IsDisabled != true)
                                       .FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
             return user;
 
@@ -131,7 +131,7 @@ namespace API_ElectroUG.Repository
 
             if (existsUser != null)
             {
-                _context.Entry(existsUser).CurrentValues.SetValues(existsUser.IsDisable = true);
+                _context.Entry(existsUser).CurrentValues.SetValues(existsUser.IsDisabled = true);
                 await _context.SaveChangesAsync();
                 return existsUser;
 

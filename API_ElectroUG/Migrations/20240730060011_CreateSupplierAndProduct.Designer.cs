@@ -4,6 +4,7 @@ using API_ElectroUG.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ElectroUG.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240730060011_CreateSupplierAndProduct")]
+    partial class CreateSupplierAndProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,29 @@ namespace API_ElectroUG.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("API_ElectroUG.Models.Carrito", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("carrito");
+                });
 
             modelBuilder.Entity("API_ElectroUG.Models.Category", b =>
                 {
@@ -68,8 +94,8 @@ namespace API_ElectroUG.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.Property<string>("ProductImgUrl")
                         .HasColumnType("nvarchar(max)");
@@ -87,6 +113,35 @@ namespace API_ElectroUG.Migrations
                     b.HasIndex("SupplierId");
 
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("API_ElectroUG.Models.Producto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CarritoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarritoId");
+
+                    b.ToTable("producto");
                 });
 
             modelBuilder.Entity("API_ElectroUG.Models.Supplier", b =>
@@ -169,6 +224,17 @@ namespace API_ElectroUG.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("API_ElectroUG.Models.Carrito", b =>
+                {
+                    b.HasOne("API_ElectroUG.Models.User", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("API_ElectroUG.Models.Product", b =>
                 {
                     b.HasOne("API_ElectroUG.Models.Category", "Category")
@@ -186,6 +252,22 @@ namespace API_ElectroUG.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("API_ElectroUG.Models.Producto", b =>
+                {
+                    b.HasOne("API_ElectroUG.Models.Carrito", "Carrito")
+                        .WithMany("Productos")
+                        .HasForeignKey("CarritoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carrito");
+                });
+
+            modelBuilder.Entity("API_ElectroUG.Models.Carrito", b =>
+                {
+                    b.Navigation("Productos");
                 });
 #pragma warning restore 612, 618
         }
