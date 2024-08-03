@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_ElectroUG.Models
 {
@@ -16,15 +17,19 @@ namespace API_ElectroUG.Models
         public string Description { get; set; }
 
         [Required]
+        [ForeignKey("CategoryId")]
+
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
         [Required]
+        [ForeignKey("SupplierId")]
         public int SupplierId { get; set; }
         public Supplier Supplier { get; set; }
 
         [Required]
-        public float Price { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Price { get; set; }
 
         [Required]
         public int Stock {  get; set; }
