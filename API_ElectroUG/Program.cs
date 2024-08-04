@@ -32,7 +32,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API_ElectroUG", Version = "v1.1" });
 
     // Configura Swagger para usar los comentarios XML del archivo generado.
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

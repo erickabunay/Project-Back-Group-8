@@ -75,7 +75,7 @@ namespace API_ElectroUG.Repository
             }
             else
             {
-                throw new ApiException($"Operación no permitida.", 400, $"No se encontró un proveedor con el {id} especificado.");
+                throw new ApiException($"Operación no permitida.", 400, $"No se encontró un proveedor con el id: {id}.");
             }
         }
 

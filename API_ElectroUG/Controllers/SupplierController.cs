@@ -1,8 +1,11 @@
-﻿using API_ElectroUG.Models;
+﻿using API_ElectroUG.Exceptions;
+using API_ElectroUG.Models;
 using API_ElectroUG.Repository;
 using BenchmarkDotNet.Reports;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Diagnostics.Runtime.Utilities;
 
 namespace API_ElectroUG.Controllers
 {
@@ -39,7 +42,9 @@ namespace API_ElectroUG.Controllers
         [HttpGet("GetAllSuppliers")]
         public async Task<List<Supplier>> GetAllSupplierAsync()
         {
-            return await _supplierRepository.GetAllSupplierAsync();
+            var result = await _supplierRepository.GetAllSupplierAsync();
+
+            return result == null ? throw new ApiException("No hay resultados", 404, "No se encontraron resultados.") : result;
         }
 
         /// <summary>
@@ -49,7 +54,9 @@ namespace API_ElectroUG.Controllers
         [HttpGet("GetEnabledSuppliersUpToDate/{dateOfEntry}")]
         public async Task<List<Supplier>> GetEnabledSuppliersUpToDateAsync(DateTime dateOfEntry)
         {
-            return await _supplierRepository.GetEnabledSuppliersUpToDateAsync(dateOfEntry);
+            var result = await _supplierRepository.GetEnabledSuppliersUpToDateAsync(dateOfEntry);
+            return result == null ? throw new ApiException("No hay resultados", 404, "No se encontraron resultados.") : result;
+
         }
 
         /// <summary>
@@ -58,7 +65,9 @@ namespace API_ElectroUG.Controllers
         [HttpGet("GetSuppliersByTradeName/{tradeName}")]
         public async Task <Supplier> GetSuppliersByTradeNameAsync(string tradeName)
         {
-            return await _supplierRepository.GetSuppliersByTradeNameAsync(tradeName);
+            var result = await _supplierRepository.GetSuppliersByTradeNameAsync(tradeName);
+            return result == null ? throw new ApiException("No hay resultados", 404, "No se encontraron resultados.") : result;
+
         }
 
         /// <summary>
@@ -67,14 +76,10 @@ namespace API_ElectroUG.Controllers
         [HttpGet("GetSupplierById/{id}")]
         public async Task<Supplier> GetSupplierByIdAsync(int id)
         {
-            return await _supplierRepository.GetSupplierByIdAsync(id);
-        }
+            var result =  await _supplierRepository.GetSupplierByIdAsync(id);
+            return result == null ? throw new ApiException("No hay resultados", 404, "No se encontraron resultados.") : result;
 
-        public Task<bool> SaveChangesAsync()
-        {
-            throw new NotImplementedException();
         }
-
         /// <summary>
         /// Endpoint que permite la edición del proveedor, con el Id especificado.
         /// </summary>
