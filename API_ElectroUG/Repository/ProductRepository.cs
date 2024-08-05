@@ -49,9 +49,9 @@ namespace API_ElectroUG.Repository
                 return new BadRequestObjectResult("Product Price must be greater than zero.");
             }
 
-            if (product.Stock < 0)
+            if (product.Stock <= 0)
             {
-                return new BadRequestObjectResult("Product Stock cannot be negative.");
+                return new BadRequestObjectResult("Product Stock must be greather than zero.");
             }
             #endregion
 
@@ -269,9 +269,9 @@ namespace API_ElectroUG.Repository
                 return new BadRequestObjectResult("El precio del producto debe ser mayor a 0.");
             }
 
-            if (updatedProduct.Stock < 0)
+            if (updatedProduct.Stock <= 0)
             {
-                return new BadRequestObjectResult("El stock no puede ser negativo.");
+                return new BadRequestObjectResult("El stock debe ser mayor a 0.");
             }
 
             if (product.SupplierId != 0)
