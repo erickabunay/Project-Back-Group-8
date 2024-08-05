@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 
 namespace API_ElectroUG.Models
 {
@@ -8,7 +9,7 @@ namespace API_ElectroUG.Models
         [Key]
         public int Id { get; set; }
 
-        public string ProductImgUrl { get; set; }
+        public string ProductImg { get; set; }
 
         [Required]
         public string Name { get; set; }
