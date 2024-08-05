@@ -1,4 +1,5 @@
 ﻿using API_ElectroUG.Context;
+using API_ElectroUG.Exceptions;
 using API_ElectroUG.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,7 +49,7 @@ namespace API_ElectroUG.Repository
 
                     if (rucExists)
                     {
-                        throw new InvalidOperationException($"El RUC {supplier.Ruc} ya se encuentra registrado.");
+                        throw new ApiException($"Operación no permitida.", 400, $"El RUC {supplier.Ruc} ya se encuentra registrado.");
                     }
                 }
 
@@ -68,44 +69,66 @@ namespace API_ElectroUG.Repository
             if (existsSupplier != null)
             {
                 _context.Entry(existsSupplier)
-                    .CurrentValues.SetValues(existsSupplier.IsDisabled = true);
+                        .CurrentValues.SetValues(existsSupplier.IsDisabled = true);
                 await _context.SaveChangesAsync();
                 return existsSupplier;
             }
-            else 
+            else
             {
-                throw new Exception("No se encontró un proveedor con el " + id + " especificado.");
+                throw new ApiException($"Operación no permitida.", 400, $"No se encontró un proveedor con el id: {id}.");
             }
         }
 
-        public Task<List<Supplier>> GetAllSupplierAsync()
+        public async Task<List<Supplier>> GetAllSupplierAsync()
         {
-            throw new NotImplementedException();
+            List<Supplier> suppliers = await _context.Supplier
+                                                     .Where(s => s.IsDisabled != true)
+                                                     .ToListAsync();
+
+            return suppliers;
         }
 
-        public Task<List<Supplier>> GetSupplerByDateOfEntryAsync(DateTime dateOfEntry)
+        public async Task<List<Supplier>> GetEnabledSuppliersUpToDateAsync(DateTime dateOfEntry)
         {
-            throw new NotImplementedException();
+            List<Supplier> suppliers = await _context.Supplier
+                                                     .Where(s => s.IsDisabled != true
+                                                      && s.DateOfEntry.Date <= dateOfEntry.Date)
+                                                     .ToListAsync();
+            return suppliers;
         }
 
-        public Task<List<Supplier>> GetSupplierByBusinessNameAsync(string businessName)
+        public async Task<Supplier> GetSuppliersByTradeNameAsync(string tradeName)
         {
-            throw new NotImplementedException();
+            Supplier suppliers = await _context.Supplier
+                                                .Where(s => s.IsDisabled != true
+                                                 && s.TradeName == tradeName)
+                                                .FirstOrDefaultAsync();
+            return suppliers;
         }
 
-        public Task<Supplier> GetSupplierByIdAsync(int id)
+        public async Task<Supplier> GetSupplierByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            Supplier supplier = await _context.Supplier
+                                              .Where(s => s.Id == id
+                                               && s.IsDisabled != true)
+                                              .FirstOrDefaultAsync();
+            return supplier;
         }
 
-        public async Task<bool> SaveChangesAsync()
+        public async Task<Supplier> UpdateSupplierAsync(int id, Supplier supplier)
         {
-            return await _context.SaveChangesAsync() > 0;
-        }
+            var existsSupplier = await _context.Supplier.FirstOrDefaultAsync(s => s.Id == id);
 
-        public Task<Supplier> UpdateSupplierAsync(Supplier supplier)
-        {
-            throw new NotImplementedException();
+            if (existsSupplier != null)
+            {
+                _context.Entry(existsSupplier).CurrentValues.SetValues(supplier);
+                await _context.SaveChangesAsync();
+                return existsSupplier;
+            }
+            else
+            {
+                throw new ApiException("Operación no permitida", 400, $"El proveedor con el Id: {id} no existe.");
+            }
         }
     }
 }

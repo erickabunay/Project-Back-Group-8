@@ -8,16 +8,15 @@ namespace API_ElectroUG.Repository
 
         Task<Supplier> GetSupplierByIdAsync(int id);
 
-        Task<List<Supplier>> GetSupplierByBusinessNameAsync(string businessName);
+        Task<Supplier> GetSuppliersByTradeNameAsync(string tradeName);
 
-        Task<List<Supplier>> GetSupplerByDateOfEntryAsync(DateTime dateOfEntry);
+        Task<List<Supplier>> GetEnabledSuppliersUpToDateAsync(DateTime dateOfEntry);
 
         Task<Supplier> CreateSupplierAsync(Supplier supplier);
 
-        Task<Supplier> UpdateSupplierAsync(Supplier supplier);
+        Task<Supplier> UpdateSupplierAsync(int id, Supplier supplier);
 
         Task<Supplier> DisableSupplierByIdAsync(int id);
 
-        Task<bool> SaveChangesAsync();
     }
 }

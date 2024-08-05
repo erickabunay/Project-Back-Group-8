@@ -26,9 +26,12 @@ namespace API_ElectroUG.Context
                 return new AppDbContext(optionsBuilder.Options);
             }
         }
+
+
         public DbSet<User> User { get; set; }
         public DbSet<Supplier> Supplier { get; set; }
-        public DbSet<Product> Product { get; set; } 
+        public DbSet<Product> Product { get; set; }
+        public DbSet<Category> Category { get; set; }
 
     }
 }
