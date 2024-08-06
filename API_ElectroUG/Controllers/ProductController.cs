@@ -51,7 +51,7 @@ namespace API_ElectroUG.Controllers
         }
 
         [HttpPut("UpdateProductById/{id}")]
-        public async Task<ActionResult<Product>> UpdateProductByIdAsync(int id, Product product)
+        public async Task<ActionResult<Product>> UpdateProductByIdAsync(int id, [FromBody] Product product)
         {
             return await _productRepository.UpdateProductByIdAsync(id, product);    
         }
