@@ -32,6 +32,7 @@ namespace API_ElectroUG.Context
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<Branch> Branch { get; set; }
 
     }
 }
