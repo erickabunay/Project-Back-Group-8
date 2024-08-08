@@ -63,7 +63,7 @@ namespace API_ElectroUG.Repository
         public async Task<Models.Branch> GetBranchByNameAsync(string branchName)
         {
             var branch = await _context.Branch
-                                       .Where(b => b.Name == branchName
+                                       .Where(b => b.Name.Contains(branchName)
                                         && b.IsDisabled != true)
                                        .FirstOrDefaultAsync();
             return branch;
@@ -80,12 +80,12 @@ namespace API_ElectroUG.Repository
         }
         public async Task<Models.Branch> UpdateBranchAsync(int id, Models.Branch updateBranch)
         {
-            var existingBranch = await _context.Branch.Where(b => b.BranchId == id 
+            var existingBranch = await _context.Branch.Where(b => b.BranchId == updateBranch.BranchId 
                                                         && b.IsDisabled != true)
                                                        .FirstOrDefaultAsync();
             if (existingBranch == null)
             {
-                throw new Exception($"No se encontró la sucrusal con el id: {id}");
+                throw new Exception($"No se encontró la sucrusal con el id: {updateBranch.BranchId}");
             }
 
             // Validar que el nuevo nombre no esté en uso por otro branch
@@ -101,7 +101,7 @@ namespace API_ElectroUG.Repository
             existingBranch.CreationBranch = updateBranch.CreationBranch;
 
             await _context.SaveChangesAsync();
-            return updateBranch;
+            return existingBranch;
         }
 
     }

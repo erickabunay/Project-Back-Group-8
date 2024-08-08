@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_ElectroUG.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class CategoryController : Controller, ICategoryRepository
     {
         private readonly ICategoryRepository _categoryRepository;

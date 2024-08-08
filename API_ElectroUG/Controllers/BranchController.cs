@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_ElectroUG.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class BranchController : Controller , IBranchRepository
     {
         private readonly IBranchRepository _branchRepository;

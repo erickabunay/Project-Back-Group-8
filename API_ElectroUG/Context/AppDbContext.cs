@@ -14,7 +14,7 @@ namespace API_ElectroUG.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Server=ANGELO\SQLEXPRESS
-            optionsBuilder.UseSqlServer(@"Server=localhost;Database=ElectroUG;Integrated Security=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(@"Server=ANGELO\SQLEXPRESS;Database=ElectroUG;Integrated Security=True;TrustServerCertificate=True;");
         }
         public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
         {
@@ -22,7 +22,7 @@ namespace API_ElectroUG.Context
             {
                 var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
                 //Server=ANGELO\SQLEXPRESS
-                optionsBuilder.UseSqlServer(@"Server=localhost;Database=ElectroUG;Integrated Security=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer(@"Server=ANGELO\SQLEXPRESS;Database=ElectroUG;Integrated Security=True;TrustServerCertificate=True;");
 
                 return new AppDbContext(optionsBuilder.Options);
             }
