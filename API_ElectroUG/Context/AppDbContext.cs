@@ -36,5 +36,7 @@ namespace API_ElectroUG.Context
         public DbSet<Branch> Branch { get; set; }
         public DbSet<Carrito> Carritos { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
+        public DbSet<Sponsor> Patrocinadores { get; set; }  
+        public DbSet<Event> Eventos { get; set; }
     }
 }
