@@ -21,7 +21,7 @@ namespace API_ElectroUG.Controllers
             return _sponsorRepository.CreateSponsorAsync(createSponsor);
         }
 
-        [HttpGet("DisabledSponsorById/{sponsorId}")]
+        [HttpDelete("DisabledSponsorById/{sponsorId}")]
         public Task<Sponsor> DisabledSponsorByIdAsync(int sponsorId)
         {
             return _sponsorRepository.DisabledSponsorByIdAsync(sponsorId);

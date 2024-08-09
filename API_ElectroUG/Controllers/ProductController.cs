@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_ElectroUG.Controllers
 {
-
+    [ApiController]
+    [Route("api/[controller]")]
     public class ProductController : Controller, IProductRepository
     {
         private readonly IProductRepository _productRepository;

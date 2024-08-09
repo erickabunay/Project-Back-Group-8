@@ -9,6 +9,8 @@ using Microsoft.Diagnostics.Runtime.Utilities;
 
 namespace API_ElectroUG.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class SupplierController : Controller, ISupplierRepository
     {
         private readonly ISupplierRepository _supplierRepository;
